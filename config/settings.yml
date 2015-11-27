@@ -1,0 +1,51 @@
+# Main configuration file
+
+# Configurations file sets variables for different working environments: development, test, staging, production
+# For variables meaning refer to comments in development section 
+
+development: &development
+  # all settings in developemnt section are effective ONLY in developemnt environment
+  # to change production settings goto production section
+
+  # license server settings
+  workers: 2
+  pid_file: log/license_server.pid  # Path to the process pidfile. Useful when need multiple license servers
+  log_file:                         # Path to logfile. If value omitted, output logs to STDOUT
+  log_level: debug                  # Allowed values: debug (most verbose), info, warn, error, fatal (least verbose)
+
+  host: 0.0.0.0                     # License server host
+  port: 443                         # License server port
+  # Path to https certificates
+  https_key: /opt/nginx/ssl/nginx.key
+  https_cert: /opt/nginx/ssl/nginx.crt
+  healthcheck_host: 0.0.0.0         # 
+  healthcheck_port: 8084            # License server healtcheck port
+
+  # airbrake (errbit) settings
+  # TODO add license_server to errbit
+  airbrake_api_key: aaaaaaaaaaaaaaaaaaaaaa
+  airbrake_host: errbit.inventos.ru
+
+test:
+  # test environment inherits most settings from development environment
+  <<: *development
+
+  # settings below are overridden
+  workers: 1
+  log_file:
+
+staging: &staging
+  # staging environment inherits most settings from development environment
+  <<: *development
+
+  # settings below are overridden
+  workers: 4
+  log_file: log/staging.log
+
+production:
+  # production environment inherits most settings from staging environment
+  <<: *staging
+
+  workers: 16
+  log_file: log/production.log
+  log_level: info
