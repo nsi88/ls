@@ -2,12 +2,12 @@ development: &development
   host: 127.0.0.1
   user: root
   password:
-  database: license_server_providers
+  database: ls_providers
   charset: utf8_general_ci
   timezone: UTC
 
 test:
   <<: *development
-  database: license_server_providers_test
+  database: ls_providers_test
 
   # TODO ssl connection for staging and production
