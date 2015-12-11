@@ -6,6 +6,7 @@ var create_providers_table = new Migration({
       t.integer('flags', { unsigned: true, not_null: true, default_value: '0' });
       t.integer('encryption_key_id', { unsigned: true, not_null: true });
       t.primary_key('id');
+      t.index('name');
     });
 	},
 	down: function() {
