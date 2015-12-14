@@ -23,7 +23,7 @@ var create_root_provider = new Migration({
     var root_provider = require('./seeds/root_provider');
     ls.init(function() {
       ls.mysqlConnect(function() {
-        providers.destroy({ name: root_provider.name }, function(err, provider) {
+        providers.destroy(root_provider.name, function(err, provider) {
           if (err) {
             console.log(err);
           } else {
