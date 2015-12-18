@@ -26,6 +26,7 @@
  */ 
 var DATA_TYPES = [
   'string',
+  'char',
   'text',
   'integer',
   'float',
@@ -387,6 +388,7 @@ Encoders['mysql'] = function() {
   var types = {
     'integer': 'INT',
     'string': 'VARCHAR',
+    'char': 'CHAR',
     'text': 'TEXT',
     'float': 'FLOAT',
     'decimal': 'DECIMAL',
@@ -422,6 +424,13 @@ Encoders['mysql'] = function() {
       else
         type += '(255)';
     }
+    else if (column.type == 'char') {
+      type = types[column.type];
+      if (column.limit)
+        type += "(" + column.limit + ")";
+      else
+        type += '(256)';
+    }
     else if (column.type == 'decimal') {
       type = types[column.type];
       if (column.precision && column.scale) {
@@ -446,7 +455,7 @@ Encoders['mysql'] = function() {
     
     if (column.default_value) {
       type += ' DEFAULT ';
-      if (column.type == 'string' || column.type == 'text')
+      if (column.type == 'string' || column.type == 'text' || column.type == 'char')
         type += "'" + column.default_value + "'";
       else
         type += column.default_value;
@@ -584,6 +593,7 @@ Encoders['sqlite3'] = function() {
   var types = {
     'integer': 'INT',
     'string': 'VARCHAR',
+    'char': 'CHAR',
     'text': 'TEXT',
     'float': 'FLOAT',
     'decimal': 'DECIMAL',
@@ -619,6 +629,13 @@ Encoders['sqlite3'] = function() {
       else
         type += '(255)';
     }
+    else if (column.type == 'char') {
+      type = types[column.type];
+      if (column.limit)
+        type += "(" + column.limit + ")";
+      else
+        type += '(256)';
+    }
     else if (column.type == 'decimal') {
       type = types[column.type];
       if (column.precision && column.scale) {
@@ -636,7 +653,7 @@ Encoders['sqlite3'] = function() {
     
     if (column.default_value) {
       type += ' DEFAULT ';
-      if (column.type == 'string' || column.type == 'text')
+      if (column.type == 'string' || column.type == 'text' || column.type == 'char')
         type += "'" + column.default_value + "'";
       else
         type += column.default_value;

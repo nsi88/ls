@@ -15,4 +15,5 @@ describe('license server', function() {
   require('./lib/sign')();
   require('./lib/providers')();
   require('./lib/licenses')();
+  require('./lib/tokens')();
 });
